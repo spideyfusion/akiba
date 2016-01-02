@@ -29,7 +29,7 @@ Here's a list of settings you're able to override though the utility's `configur
 * **renderingResolutionHeight** [int] - The resolution height at which the game is going to be rendered.
 * **fullscreen** [bool] - Whether to run the game in exclusive fullscreen mode or not.
 * **verticalSynchronization** [bool] - Should [VSync](https://en.wikipedia.org/wiki/Screen_tearing#V-sync) be enabled or not. It's recommended to turn it off if you run the game at anything other than 30 FPS.
-*  **antiAliasing** [bool] - Should [anti-aliasing](https://en.wikipedia.org/wiki/Spatial_anti-aliasing) be applied or not. It's recommended to turn it off if you're going to take advantage of *downsampling*.
+* **antiAliasing** [bool] - Should [anti-aliasing](https://en.wikipedia.org/wiki/Spatial_anti-aliasing) be applied or not. It's recommended to turn it off if you're going to take advantage of *downsampling*.
  
  ### Downsampling
  
