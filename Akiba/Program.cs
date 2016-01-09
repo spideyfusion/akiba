@@ -166,7 +166,7 @@ namespace Akiba
 
             try
             {
-                return Configuration.LoadFromFile();
+                return Configuration.LoadFromFile().Save();
             }
             catch
             {
