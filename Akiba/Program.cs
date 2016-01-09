@@ -78,8 +78,11 @@ namespace Akiba
                 return (int)ExitCodes.FramerateAlterFail;
             }
 
-            // Move the cursor off the screen in case people are launching the game from Big Picture.
-            Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
+            if (Config.HideCursor)
+            {
+                // Move the cursor off the screen in case people are launching the game from Big Picture.
+                Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
+            }
 
             return (int)ExitCodes.Success;
         }

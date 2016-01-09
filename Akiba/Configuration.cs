@@ -15,6 +15,7 @@ namespace Akiba
         public bool Fullscreen { get; private set; } = true;
         public bool VerticalSynchronization { get; private set; } = false;
         public bool AntiAliasing { get; private set; } = false;
+        public bool HideCursor { get; private set; } = false;
 
         public Configuration Save()
         {
