@@ -54,6 +54,11 @@ namespace Akiba
                 // Windows 7
                 return 0x0018FE04;
             }
+            else if (systemVersion.Major == 6 && systemVersion.Minor == 0)
+            {
+                // Windows Vista
+                return 0x0017FE04;
+            }
 
             return 0x00;
         }
