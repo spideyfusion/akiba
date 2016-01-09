@@ -143,7 +143,7 @@ namespace Akiba
                     return false;
                 }
 
-                // Even we're replacing the config utlity, we don't want to get rid of it.
+                // Even though we're replacing the config utlity, we don't want to get rid of it.
                 File.Move(Utilities.ConfigExecutableName, Utilities.BackupConfigExecutableName);
 
                 // We'll rename our utility to match the game's config executable name.
