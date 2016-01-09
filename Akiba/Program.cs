@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -76,6 +77,9 @@ namespace Akiba
 
                 return (int)ExitCodes.FramerateAlterFail;
             }
+
+            // Move the cursor off the screen in case people are launching the game from Big Picture.
+            Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
 
             return (int)ExitCodes.Success;
         }
