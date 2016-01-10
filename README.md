@@ -10,13 +10,13 @@
 
 ## Requirements
 
-* Windows 7 or greater
+* Windows Vista or greater
 * [Microsoft .NET Framework 4.5.2](https://www.microsoft.com/en-us/download/details.aspx?id=42643)
 * [AKIBA'S TRIP](http://store.steampowered.com/app/333980/)
 
 > **NOTE:** Only the Steam version of the game is supported. If you obtained the game via some other distribution method, tough luck! :-)
 
-## Installation
+## Installation/Upgrading
 
 Just place the downloaded binary in the game's root directory and then run it. The utility is smart enough to do everything else by itself. Don't forget to edit the `configuration.yaml` file before starting the game.
 
@@ -30,6 +30,7 @@ Here's a list of settings you're able to override though the utility's `configur
 * **fullscreen** [bool] - Whether to run the game in exclusive fullscreen mode or not.
 * **verticalSynchronization** [bool] - Should [VSync](https://en.wikipedia.org/wiki/Screen_tearing#V-sync) be enabled or not. It's recommended to turn it off if you run the game at anything other than 30 FPS.
 * **antiAliasing** [bool] - Should [anti-aliasing](https://en.wikipedia.org/wiki/Spatial_anti-aliasing) be applied or not. It's recommended to turn it off if you're going to take advantage of *downsampling*.
+* **hideCursor** [bool] - If enabled, the cursor will be positioned off the screen when the game starts. This is useful if you're running [Big Picture](http://store.steampowered.com/bigpicture).
 
  ### Downsampling
 
