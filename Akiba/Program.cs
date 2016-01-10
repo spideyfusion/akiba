@@ -143,6 +143,31 @@ namespace Akiba
                     return false;
                 }
 
+                FileVersionInfo utilityVersion = FileVersionInfo.GetVersionInfo(Utilities.ConfigExecutableName);
+
+                if (IsUtilityOurOwn(utilityVersion))
+                {
+                    DialogResult dialogResult = MessageBox.Show(
+                        string.Format(Properties.Resources.MessageUpgradeNotice, Application.ProductName, utilityVersion.ProductVersion, Application.ProductVersion),
+                        Application.ProductName,
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return false;
+                    }
+
+                    // Send the old utility version to oblivion...
+                    File.Delete(Utilities.ConfigExecutableName);
+
+                    // And let the new one take its place...
+                    File.Move(currentProcessName, Utilities.ConfigExecutableName);
+
+                    return true;
+                }
+
                 // Even though we're replacing the config utlity, we don't want to get rid of it.
                 File.Move(Utilities.ConfigExecutableName, Utilities.BackupConfigExecutableName);
 
@@ -180,6 +205,16 @@ namespace Akiba
         private static bool InvokedByAkiba(string[] args)
         {
             return args.DefaultIfEmpty(string.Empty).First().Equals(Utilities.ConfigTriggerSwitch);
+        }
+
+        private static bool IsUtilityOurOwn(FileVersionInfo versionInfo)
+        {
+            if (!versionInfo.ProductName.Equals(Application.ProductName))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
