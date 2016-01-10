@@ -7,16 +7,15 @@ namespace Akiba
 {
     static class Utilities
     {
-        public static string GameExecutableName = "AkibaUU.exe";
-        public static string ConfigExecutableName = "AkibaUU_Config.exe";
-        public static string BackupConfigExecutableName = "AkibaUU_Config.Original.exe";
-        public static string ConfigTriggerSwitch = "RediationNext_Config";
+        public const string GameExecutableName = "AkibaUU.exe";
+        public const string ConfigExecutableName = "AkibaUU_Config.exe";
+        public const string BackupConfigExecutableName = "AkibaUU_Config.Original.exe";
+        public const string ConfigTriggerSwitch = "RediationNext_Config";
+        public const string MonitorTriggerSwitch = "GameMonitor";
 
         public static bool AlterGameFramerate()
         {
-            var gameProcess = Process.GetProcessesByName(
-                Path.GetFileNameWithoutExtension(GameExecutableName)
-            ).FirstOrDefault();
+            Process gameProcess = GetGameProcess();
 
             if (gameProcess == null)
             {
@@ -33,6 +32,13 @@ namespace Akiba
             NativeMethods.WriteToProcessMemory(gameProcess, memoryAddress, Program.Config.FramesPerSecond);
 
             return true;
+        }
+
+        public static Process GetGameProcess()
+        {
+            return Process.GetProcessesByName(
+                Path.GetFileNameWithoutExtension(GameExecutableName)
+            ).FirstOrDefault();
         }
 
         private static int GetFramerateMemoryAddress()

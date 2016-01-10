@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Akiba
@@ -25,13 +26,8 @@ namespace Akiba
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 
-            if (!InitialBootstrap())
-            {
-                return (int)ExitCodes.BoostrapFail;
-            }
-
             Config = InitializeConfiguration();
-            
+
             if (Config == null)
             {
                 MessageBox.Show(
@@ -44,21 +40,22 @@ namespace Akiba
                 return (int)ExitCodes.ConfigurationError;
             }
 
-            if (!InvokedByAkiba(args))
+            if (!InitialBootstrap())
             {
-                Process gameUtility = Process.Start(new ProcessStartInfo {
-                    FileName = Utilities.BackupConfigExecutableName,
-                    Arguments = Utilities.ConfigTriggerSwitch
-                });
+                return (int)ExitCodes.BoostrapFail;
+            }
 
-                gameUtility.WaitForExit();
-
-                if (gameUtility.ExitCode == 0)
-                {
-                    Process.Start(Utilities.GameExecutableName);
-                }
-
-                return (int)ExitCodes.Success;
+            switch (args.DefaultIfEmpty(null).First())
+            {
+                case Utilities.MonitorTriggerSwitch:
+                    StartGameMonitorLoop();
+                    return (int)ExitCodes.Success;
+                case Utilities.ConfigTriggerSwitch:
+                    // We got called by the game!
+                    break;
+                default:
+                    LaunchConfigurationUtility();
+                    return (int)ExitCodes.Success;
             }
 
             using (AkibaSettings gameSettings = new AkibaSettings())
@@ -78,11 +75,12 @@ namespace Akiba
                 return (int)ExitCodes.FramerateAlterFail;
             }
 
-            if (Config.HideCursor)
+            // We're going to re-launch ourselves and monitor the game.
+            Process.Start(new ProcessStartInfo
             {
-                // Move the cursor off the screen in case people are launching the game from Big Picture.
-                Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
-            }
+                FileName = Utilities.ConfigExecutableName,
+                Arguments = Utilities.MonitorTriggerSwitch,
+            });
 
             return (int)ExitCodes.Success;
         }
@@ -202,9 +200,38 @@ namespace Akiba
             }
         }
 
-        private static bool InvokedByAkiba(string[] args)
+        private static void LaunchConfigurationUtility()
         {
-            return args.DefaultIfEmpty(string.Empty).First().Equals(Utilities.ConfigTriggerSwitch);
+            Process gameUtility = Process.Start(new ProcessStartInfo
+            {
+                FileName = Utilities.BackupConfigExecutableName,
+                Arguments = Utilities.ConfigTriggerSwitch,
+            });
+
+            gameUtility.WaitForExit();
+
+            if (gameUtility.ExitCode == (int)ExitCodes.Success)
+            {
+                Process.Start(Utilities.GameExecutableName);
+            }
+        }
+
+        private static void StartGameMonitorLoop()
+        {
+            Process gameProcess = Utilities.GetGameProcess();
+
+            do
+            {
+                // Let's just wait for a little bit...
+                Task.Delay(1000).Wait();
+
+                gameProcess.Refresh();
+            } while (gameProcess.MainWindowHandle == IntPtr.Zero);
+
+            // Move the cursor off the screen in case people are launching the game from Big Picture.
+            Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
+
+            gameProcess.WaitForExit();
         }
 
         private static bool IsUtilityOurOwn(FileVersionInfo versionInfo)
