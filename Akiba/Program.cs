@@ -231,6 +231,12 @@ namespace Akiba
             // Move the cursor off the screen in case people are launching the game from Big Picture.
             Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
 
+            if (Config.PreventSystemSleep)
+            {
+                // Prevent the system from going to sleep if the game is running.
+                NativeMethods.SetThreadExecutionState(NativeMethods.ExecutionStateFlags.Continuous | NativeMethods.ExecutionStateFlags.DisplayRequired);
+            }
+
             gameProcess.WaitForExit();
         }
 

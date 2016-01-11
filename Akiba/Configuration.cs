@@ -16,6 +16,7 @@ namespace Akiba
         public bool VerticalSynchronization { get; private set; } = false;
         public bool AntiAliasing { get; private set; } = false;
         public bool HideCursor { get; private set; } = false;
+        public bool PreventSystemSleep { get; private set; } = true;
 
         public Configuration Save()
         {
