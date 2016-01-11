@@ -7,6 +7,7 @@
 * Skip the game's configuration window and jump straight into the game.
 * Unlock the game's framerate to anything you want. Who wants to play at 30 FPS anyway?
 * Experience the game at resolutions beyond 1920x1080. Yes, even in UHD!
+* Make the game controller friendly by hiding the cursor and prevent the system from falling asleep.
 
 ## Requirements
 
