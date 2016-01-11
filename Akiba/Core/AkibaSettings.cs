@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
-namespace Akiba
+namespace Akiba.Core
 {
     class AkibaSettings : IDisposable
     {

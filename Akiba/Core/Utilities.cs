@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace Akiba
+namespace Akiba.Core
 {
     static class Utilities
     {

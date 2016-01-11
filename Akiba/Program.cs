@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Akiba.Core;
+using Akiba.Core.Exceptions;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -14,17 +16,37 @@ namespace Akiba
 
         private enum ExitCodes : int
         {
-            Success = 0,
+            Success,
             BoostrapFail,
             ConfigurationError,
             FramerateAlterFail,
             UnhandledException,
+            UserCanceled,
         }
 
         [STAThread]
         private static int Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+
+            try
+            {
+                if (!PerformBootstrap())
+                {
+                    return (int)ExitCodes.UserCanceled;
+                }
+            }
+            catch (BootstrapException e)
+            {
+                MessageBox.Show(
+                    e.Message,
+                    Application.ProductName,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return (int)ExitCodes.BoostrapFail;
+            }
 
             Config = InitializeConfiguration();
 
@@ -40,11 +62,6 @@ namespace Akiba
                 return (int)ExitCodes.ConfigurationError;
             }
 
-            if (!InitialBootstrap())
-            {
-                return (int)ExitCodes.BoostrapFail;
-            }
-
             switch (args.DefaultIfEmpty(null).First())
             {
                 case Utilities.MonitorTriggerSwitch:
@@ -58,7 +75,7 @@ namespace Akiba
                     return (int)ExitCodes.Success;
             }
 
-            using (AkibaSettings gameSettings = new AkibaSettings())
+            using (var gameSettings = new AkibaSettings())
             {
                 gameSettings.ApplySettings();
             }
@@ -97,81 +114,32 @@ namespace Akiba
             Environment.Exit((int)ExitCodes.UnhandledException);
         }
 
-        private static bool InitialBootstrap()
+        private static bool PerformBootstrap()
         {
-            if (!File.Exists(Utilities.GameExecutableName))
+            var installer = new AkibaInstaller();
+
+            AkibaInstaller.InstallStatus installStatus = installer.Install();
+
+            if (installStatus == AkibaInstaller.InstallStatus.UpgradeRequested)
             {
-                MessageBox.Show(
-                    Properties.Resources.MessageGameLocation,
+                DialogResult dialogResult = MessageBox.Show(
+                    string.Format(Properties.Resources.MessageUpgradeNotice, Application.ProductName, installer.OldUtility.ProductVersion, Application.ProductVersion),
                     Application.ProductName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
                 );
 
-                return false;
-            }
-
-            string currentProcessName = Process.GetCurrentProcess().MainModule.FileName;
-
-            if (Path.GetFileName(currentProcessName).Equals(Utilities.ConfigExecutableName))
-            {
-                if (!File.Exists(Utilities.BackupConfigExecutableName))
+                if (dialogResult == DialogResult.Yes)
                 {
-                    MessageBox.Show(
-                        Properties.Resources.MessageBackupMissing,
-                        Application.ProductName,
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-
+                    installer.Upgrade();
+                }
+                else
+                {
                     return false;
                 }
             }
-            else
+            else if (installStatus == AkibaInstaller.InstallStatus.Installed)
             {
-                if (!File.Exists(Utilities.ConfigExecutableName))
-                {
-                    MessageBox.Show(
-                        Properties.Resources.MessageConfigUtilityMissing,
-                        Application.ProductName,
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-
-                    return false;
-                }
-
-                FileVersionInfo utilityVersion = FileVersionInfo.GetVersionInfo(Utilities.ConfigExecutableName);
-
-                if (IsUtilityOurOwn(utilityVersion))
-                {
-                    DialogResult dialogResult = MessageBox.Show(
-                        string.Format(Properties.Resources.MessageUpgradeNotice, Application.ProductName, utilityVersion.ProductVersion, Application.ProductVersion),
-                        Application.ProductName,
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question
-                    );
-
-                    if (dialogResult == DialogResult.No)
-                    {
-                        return false;
-                    }
-
-                    // Send the old utility version to oblivion...
-                    File.Delete(Utilities.ConfigExecutableName);
-
-                    // And let the new one take its place...
-                    File.Move(currentProcessName, Utilities.ConfigExecutableName);
-
-                    return true;
-                }
-
-                // Even though we're replacing the config utlity, we don't want to get rid of it.
-                File.Move(Utilities.ConfigExecutableName, Utilities.BackupConfigExecutableName);
-
-                // We'll rename our utility to match the game's config executable name.
-                File.Move(currentProcessName, Utilities.ConfigExecutableName);
-
                 MessageBox.Show(
                     string.Format(Properties.Resources.MessageSuccess, Configuration.ConfigurationName),
                     Application.ProductName,
@@ -241,16 +209,6 @@ namespace Akiba
             }
 
             gameProcess.WaitForExit();
-        }
-
-        private static bool IsUtilityOurOwn(FileVersionInfo versionInfo)
-        {
-            if (!versionInfo.ProductName.Equals(Application.ProductName))
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }
