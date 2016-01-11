@@ -228,8 +228,11 @@ namespace Akiba
                 gameProcess.Refresh();
             } while (gameProcess.MainWindowHandle == IntPtr.Zero);
 
-            // Move the cursor off the screen in case people are launching the game from Big Picture.
-            Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
+            if (Config.HideCursor)
+            {
+                // Move the cursor off the screen in case people are launching the game from Big Picture.
+                Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
+            }
 
             if (Config.PreventSystemSleep)
             {
