@@ -191,7 +191,7 @@ namespace Akiba
             do
             {
                 // Let's just wait for a little bit...
-                Task.Delay(1000).Wait();
+                Task.Delay(5000).Wait();
 
                 gameProcess.Refresh();
             } while (gameProcess.MainWindowHandle == IntPtr.Zero);
