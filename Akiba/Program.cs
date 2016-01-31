@@ -97,6 +97,7 @@ namespace Akiba
             {
                 FileName = Utilities.ConfigExecutableName,
                 Arguments = Utilities.MonitorTriggerSwitch,
+                UseShellExecute = false, // Spawn the process directly via the CreateProcess() API call to avoid issues with security software.
             });
 
             return (int)ExitCodes.Success;
