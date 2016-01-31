@@ -7,6 +7,8 @@ namespace Akiba.Core
 {
     static class Utilities
     {
+        public const uint SteamApplicationId = 333980;
+
         public const string GameExecutableName = "AkibaUU.exe";
         public const string ConfigExecutableName = "AkibaUU_Config.exe";
         public const string BackupConfigExecutableName = "AkibaUU_Config.Original.exe";
@@ -39,6 +41,11 @@ namespace Akiba.Core
             return Process.GetProcessesByName(
                 Path.GetFileNameWithoutExtension(GameExecutableName)
             ).FirstOrDefault();
+        }
+
+        public static void LaunchSteamGame(uint applicationId)
+        {
+            Process.Start(string.Format("steam://run/{0}", applicationId));
         }
 
         private static int GetFramerateMemoryAddress()
