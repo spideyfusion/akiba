@@ -33,6 +33,7 @@ Here's a list of settings you're able to override though the utility's `configur
 * **antiAliasing** [bool] - Should [anti-aliasing](https://en.wikipedia.org/wiki/Spatial_anti-aliasing) be applied or not. It's recommended to turn it off if you're going to take advantage of *downsampling*.
 * **hideCursor** [bool] - If enabled, the cursor will be positioned off the screen when the game starts. This is useful if you're running [Big Picture](http://store.steampowered.com/bigpicture).
 * **preventSystemSleep** [bool] - This will prevent your system from falling asleep (monitor too). Super convenient if you're playing with a gamepad (which you should).
+* **disableMovies** [bool] - Enable this if you want to skip the opening cinematic and go directly to the start screen when you start the game.
 
  ### Downsampling
 

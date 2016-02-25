@@ -14,6 +14,7 @@ namespace Akiba.Core
             Fullscreen = 16,
             VerticalSynchronization = 684,
             AntiAliasing = 688,
+            DisableMovies = 700,
         }
 
         public AkibaSettings()
@@ -47,6 +48,7 @@ namespace Akiba.Core
             this.SetConfigurationValue(ConfigurationPositions.Fullscreen, Convert.ToInt16(Program.Config.Fullscreen));
             this.SetConfigurationValue(ConfigurationPositions.VerticalSynchronization, Convert.ToInt16(Program.Config.VerticalSynchronization));
             this.SetConfigurationValue(ConfigurationPositions.AntiAliasing, Convert.ToInt16(Program.Config.AntiAliasing));
+            this.SetConfigurationValue(ConfigurationPositions.DisableMovies, Convert.ToInt16(Program.Config.DisableMovies));
         }
 
         private void SetConfigurationValue(ConfigurationPositions position, int value)

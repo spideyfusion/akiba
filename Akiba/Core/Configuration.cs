@@ -16,6 +16,7 @@ namespace Akiba.Core
         public bool AntiAliasing { get; private set; } = false;
         public bool HideCursor { get; private set; } = false;
         public bool PreventSystemSleep { get; private set; } = true;
+        public bool DisableMovies { get; private set; } = false;
 
         public Configuration Save()
         {
