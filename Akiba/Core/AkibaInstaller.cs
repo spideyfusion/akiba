@@ -62,6 +62,12 @@ namespace Akiba.Core
                 return InstallStatus.UpgradeRequested;
             }
 
+            if (File.Exists(Utilities.BackupConfigExecutableName))
+            {
+                // The config utility was most likely updated.
+                File.Delete(Utilities.BackupConfigExecutableName);
+            }
+
             // Even though we're replacing the config utlity, we don't want to get rid of it.
             File.Move(Utilities.ConfigExecutableName, Utilities.BackupConfigExecutableName);
 
