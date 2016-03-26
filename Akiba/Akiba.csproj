@@ -168,6 +168,9 @@ foreach (var item in filesToCleanup)
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>Powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(SolutionDir)\tools\AkibaPackager.ps1" -configurationName "$(ConfigurationName)" -targetPath "$(TargetPath)" -targetDir "$(TargetDir)\" -targetName "$(TargetName)" -targetFileName "$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
