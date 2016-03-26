@@ -1,6 +1,6 @@
 # AkibaInterceptor
 
- AkibaInterceptor is a small utility for adjusting the resolution and framerate in AKIBA'S TRIP. It tricks the game into thinking that it's calling its own configuration utility and then performs fancy voodoo magic.
+AkibaInterceptor is a small utility for adjusting the resolution and framerate in AKIBA'S TRIP. It tricks the game into thinking that it's calling its own configuration utility and then performs fancy voodoo magic.
 
 ## Features
 
@@ -8,6 +8,7 @@
 * Unlock the game's framerate to anything you want. Who wants to play at 30 FPS anyway?
 * Experience the game at resolutions beyond 1920x1080. Yes, even in UHD!
 * Make the game controller friendly by hiding the cursor and prevent the system from falling asleep.
+* Run the game in a borderless window to get rid of those Alt + Tab issues once and for all!
 
 ## Requirements
 
@@ -28,20 +29,27 @@ Here's a list of settings you're able to override though the utility's `configur
 * **framesPerSecond** [int] - How many FPS you want to game to run at. Anything above 60 hasn't been tested, so keep that in mind.
 * **renderingResolutionWidth** [int] - The resolution width at which the game is going to be rendered.
 * **renderingResolutionHeight** [int] - The resolution height at which the game is going to be rendered.
-* **fullscreen** [bool] - Whether to run the game in exclusive fullscreen mode or not.
+* **screenMode** [string] - In what kind of window the game should be ran. The following options are available: **Windowed, Fullscreen, Borderless**
 * **verticalSynchronization** [bool] - Should [VSync](https://en.wikipedia.org/wiki/Screen_tearing#V-sync) be enabled or not. It's recommended to turn it off if you run the game at anything other than 30 FPS.
 * **antiAliasing** [bool] - Should [anti-aliasing](https://en.wikipedia.org/wiki/Spatial_anti-aliasing) be applied or not. It's recommended to turn it off if you're going to take advantage of *downsampling*.
 * **hideCursor** [bool] - If enabled, the cursor will be positioned off the screen when the game starts. This is useful if you're running [Big Picture](http://store.steampowered.com/bigpicture).
 * **preventSystemSleep** [bool] - This will prevent your system from falling asleep (monitor too). Super convenient if you're playing with a gamepad (which you should).
 * **disableMovies** [bool] - Enable this if you want to skip the opening cinematic and go directly to the start screen when you start the game.
 
- ### Downsampling
+> **NOTE:** Configuration values are case-sensitive. Be careful how you type them out.
 
- You can take advantage of setting the rendering resolution beyond your monitor's supported resolution since the game makes the fullscreen window be as big as your current resolution. Try playing the game at **3840×2160**. :-)
+### Downsampling
 
- ### Accessing the game configuration window
+You can take advantage of setting the rendering resolution beyond your monitor's supported resolution since the game makes the fullscreen window be as big as your current resolution. Try playing the game at **3840×2160**. :-)
 
- Even though this utility will make the game launch immediately, you can still access the original game configuration window by launching `AkibaUU_Config.exe` directly from the game's root directory.
+### Borderless window
+
+* If you set `screenMode` to **Borderless** you can still achieve downsampling as `renderingResolutionWidth` and `renderingResolutionHeight` are still taken into account.
+* AkibaInterceptor will try its best to figure out on which monitor you're playing the game and expand across it. Whoosh!
+
+### Accessing the game configuration window
+
+Even though this utility will make the game launch immediately, you can still access the original game configuration window by launching `AkibaUU_Config.exe` directly from the game's root directory.
 
 > **NOTE:** The listed configuration values will always override the game settings, regardless of what it's set in the configuration window of the game.
 

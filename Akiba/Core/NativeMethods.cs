@@ -18,6 +18,30 @@ namespace Akiba.Core
         [DllImport("kernel32.dll")]
         public static extern uint SetThreadExecutionState(ExecutionStateFlags flags);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool MoveWindow(IntPtr handle, int x, int y, int width, int height, bool repaint);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr handle, out Rect rect);
+
+        [DllImport("user32.dll")]
+        public static extern int SetWindowLong(IntPtr handle, int index, int newLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr SendMessage(IntPtr handle, uint message, IntPtr wParam, IntPtr lParam);
+
+        // GetWindowLong API styles
+        public const int GWL_STYLE = -16;
+
+        // Window styles
+        public const int WS_VISIBLE = 0x10000000;
+
+        // Window messages
+        public const int WM_SYSCOMMAND = 0x0112;
+
+        // System commands
+        public const int SC_RESTORE = 0xF120;
+
         [Flags]
         public enum ExecutionStateFlags : uint
         {
@@ -41,6 +65,15 @@ namespace Akiba.Core
             SetInformation = 0x00000200,
             QueryInformation = 0x00000400,
             Synchronize = 0x00100000,
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
         }
 
         public static void WriteToProcessMemory(Process process, int address, long v)

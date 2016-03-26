@@ -7,7 +7,7 @@ namespace Akiba.Core
     {
         private FileStream ConfigurationStream;
 
-        private enum ConfigurationPositions : int
+        private enum ConfigurationPositions : uint
         {
             RenderingResolutionWidth = 8,
             RenderingResolutionHeight = 12,
@@ -45,7 +45,7 @@ namespace Akiba.Core
             this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionHeight, Program.Config.RenderingResolutionHeight);
             this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionHeight + 1, (Program.Config.RenderingResolutionHeight >> 8));
 
-            this.SetConfigurationValue(ConfigurationPositions.Fullscreen, Convert.ToInt16(Program.Config.Fullscreen));
+            this.SetConfigurationValue(ConfigurationPositions.Fullscreen, Convert.ToInt16(Program.Config.ScreenMode == Configuration.ScreenModes.Fullscreen));
             this.SetConfigurationValue(ConfigurationPositions.VerticalSynchronization, Convert.ToInt16(Program.Config.VerticalSynchronization));
             this.SetConfigurationValue(ConfigurationPositions.AntiAliasing, Convert.ToInt16(Program.Config.AntiAliasing));
             this.SetConfigurationValue(ConfigurationPositions.DisableMovies, Convert.ToInt16(Program.Config.DisableMovies));
@@ -53,7 +53,7 @@ namespace Akiba.Core
 
         private void SetConfigurationValue(ConfigurationPositions position, int value)
         {
-            this.ConfigurationStream.Position = (int)position;
+            this.ConfigurationStream.Position = (uint)position;
 
             this.ConfigurationStream.WriteByte((byte)value);
         }

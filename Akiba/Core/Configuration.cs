@@ -8,10 +8,17 @@ namespace Akiba.Core
     {
         public const string ConfigurationName = "configuration.yaml";
 
+        public enum ScreenModes : ushort
+        {
+            Windowed,
+            Fullscreen,
+            Borderless,
+        };
+
         public ushort FramesPerSecond { get; private set; } = 60;
         public ushort RenderingResolutionWidth { get; private set; } = 1920;
         public ushort RenderingResolutionHeight { get; private set; } = 1080;
-        public bool Fullscreen { get; private set; } = true;
+        public ScreenModes ScreenMode { get; private set; } = ScreenModes.Fullscreen;
         public bool VerticalSynchronization { get; private set; } = false;
         public bool AntiAliasing { get; private set; } = false;
         public bool HideCursor { get; private set; } = false;
@@ -32,7 +39,7 @@ namespace Akiba.Core
 
         public static Configuration LoadFromFile()
         {
-            var deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
+            var deserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention(), ignoreUnmatched: true);
 
             using (var streamReader = new StreamReader(ConfigurationName))
             {

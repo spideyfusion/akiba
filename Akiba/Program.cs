@@ -197,6 +197,16 @@ namespace Akiba
                 gameProcess.Refresh();
             } while (gameProcess.MainWindowHandle == IntPtr.Zero);
 
+            IntPtr gameWindow = gameProcess.MainWindowHandle;
+
+            // Make sure the game window is visible before we start manipulating it.
+            NativeMethods.SendMessage(gameWindow, NativeMethods.WM_SYSCOMMAND, (IntPtr)NativeMethods.SC_RESTORE, IntPtr.Zero);
+
+            if (Config.ScreenMode == Configuration.ScreenModes.Borderless)
+            {
+                ScreenManager.OccupyScreen(gameWindow, ScreenManager.GetGameScreen(gameWindow));
+            }
+
             if (Config.HideCursor)
             {
                 // Move the cursor off the screen in case people are launching the game from Big Picture.
