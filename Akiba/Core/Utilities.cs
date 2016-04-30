@@ -2,12 +2,14 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Akiba.Core
 {
     static class Utilities
     {
-        public const uint SteamApplicationId = 333980;
+        private const uint SteamApplicationIdFull = 333980;
+        private const uint SteamApplicationIdDemo = 375980;
 
         public const string GameExecutableName = "AkibaUU.exe";
         public const string ConfigExecutableName = "AkibaUU_Config.exe";
@@ -46,6 +48,16 @@ namespace Akiba.Core
         public static void LaunchSteamGame(uint applicationId)
         {
             Process.Start(string.Format("steam://run/{0}", applicationId));
+        }
+
+        public static uint GetSteamApplicationId(Assembly assembly)
+        {
+            if (Path.GetDirectoryName(assembly.Location).ToLower().EndsWith("demo"))
+            {
+                return SteamApplicationIdDemo;
+            }
+
+            return SteamApplicationIdFull;
         }
 
         private static int GetFramerateMemoryAddress()

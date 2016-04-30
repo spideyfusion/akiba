@@ -14,7 +14,7 @@ AkibaInterceptor is a small utility for adjusting the resolution and framerate i
 
 * Windows Vista or greater
 * [Microsoft .NET Framework 4.5.2](https://www.microsoft.com/en-us/download/details.aspx?id=42643)
-* [AKIBA'S TRIP](http://store.steampowered.com/app/333980/)
+* [AKIBA'S TRIP](http://store.steampowered.com/app/333980/) (The [demo](http://store.steampowered.com/app/375980/) version is supported too!)
 
 > **NOTE:** Only the Steam version of the game is supported. If you obtained the game via some other distribution method, tough luck! :-)
 
