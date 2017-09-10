@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Akiba.Core
 {
-    class ScreenManager
+    static class ScreenManager
     {
         public static Screen GetGameScreen(IntPtr handle)
         {

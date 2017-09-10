@@ -81,8 +81,7 @@ namespace Akiba.Core
             var processHandle = OpenProcess(ProcessAccessFlags.All, false, (int)process.Id);
             var value = new byte[] { (byte)v };
 
-            int bytesWritten = 0;
-            WriteProcessMemory(processHandle, new IntPtr(address), value, (UIntPtr)value.LongLength, out bytesWritten);
+            WriteProcessMemory(processHandle, new IntPtr(address), value, (UIntPtr)value.LongLength, out int bytesWritten);
 
             CloseHandle(processHandle);
         }
