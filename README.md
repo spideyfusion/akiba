@@ -59,7 +59,7 @@ Use GitHub's [issue tracker](https://github.com/spideyfusion/akiba/issues) to re
 
 ## Credits
 
-* The memory locations have been taken from [this](http://steamcommunity.com/sharedfiles/filedetails/?id=450891549) guide. Thanks to [X37](http://steamcommunity.com/id/X37), [You Schmuck!](http://steamcommunity.com/id/youschmuck) and [Nyan~](http://steamcommunity.com/id/chaoskagami) for finding them.
+* The memory locations have been taken from [this](http://steamcommunity.com/sharedfiles/filedetails/?id=450891549) guide. Thanks to [X37](http://steamcommunity.com/id/X37), [You Schmuck!](http://steamcommunity.com/id/youschmuck), [Nyan~](http://steamcommunity.com/id/chaoskagami) and [Conker](http://steamcommunity.com/profiles/76561197992786462) for finding them.
 * The utility icon has been created by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/).
 
 ## License
