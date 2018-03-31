@@ -69,10 +69,15 @@ namespace Akiba.Core
                 // Windows 10
                 return 0x0019FDFC;
             }
-            else if (systemVersion.Major == 6 && systemVersion.Minor > 1)
+            else if (systemVersion.Major == 6 && systemVersion.Minor == 3)
             {
-                // Windows 8/8.1
+                // Windows 8.1
                 return 0x0018FDFC;
+            }
+            else if (systemVersion.Major == 6 && systemVersion.Minor == 2)
+            {
+                // Windows 8
+                return 0x0018FE00;
             }
             else if (systemVersion.Major == 6 && systemVersion.Minor == 1)
             {
