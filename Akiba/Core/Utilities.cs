@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -66,6 +67,12 @@ namespace Akiba.Core
 
             if (systemVersion.Major == 10)
             {
+                if (GetWindowsReleaseId() >= 1809)
+                {
+                    // Windows 10 (October 2018 Update)
+                    return 0x0019FDEC;
+                }
+
                 // Windows 10
                 return 0x0019FDFC;
             }
@@ -91,6 +98,13 @@ namespace Akiba.Core
             }
 
             return 0x00;
+        }
+
+        private static uint GetWindowsReleaseId()
+        {
+            return Convert.ToUInt32(
+                (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "0")
+            );
         }
     }
 }
