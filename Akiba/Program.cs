@@ -7,7 +7,6 @@ namespace Akiba
     using System.Drawing;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
@@ -169,9 +168,19 @@ namespace Akiba
 
             if (gameUtility.ExitCode == (int)ExitCodes.Success)
             {
-                Utilities.LaunchSteamGame(
-                    Utilities.GetSteamApplicationId(Assembly.GetExecutingAssembly())
-                );
+                try
+                {
+                    GameLauncher.Launch();
+                }
+                catch (UnsupportedGameVariantException)
+                {
+                    _ = MessageBox.Show(
+                        Properties.Resources.MessageUnsupportedGameVariant,
+                        Application.ProductName,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
             }
         }
 

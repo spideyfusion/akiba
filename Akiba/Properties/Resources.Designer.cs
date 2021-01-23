@@ -116,6 +116,15 @@ namespace Akiba.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You appear to running an unsupported version of the game..
+        /// </summary>
+        internal static string MessageUnsupportedGameVariant {
+            get {
+                return ResourceManager.GetString("MessageUnsupportedGameVariant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It seems like {0} is already installed. Do you want to migrate from version {1} to {2}?.
         /// </summary>
         internal static string MessageUpgradeNotice {

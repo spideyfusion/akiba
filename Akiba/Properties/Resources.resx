@@ -136,6 +136,9 @@
   <data name="MessageSuccess" xml:space="preserve">
     <value>The installation was successful! Don't forget to edit the settings in {0} before starting the game.</value>
   </data>
+  <data name="MessageUnsupportedGameVariant" xml:space="preserve">
+    <value>You appear to running an unsupported version of the game.</value>
+  </data>
   <data name="MessageUpgradeNotice" xml:space="preserve">
     <value>It seems like {0} is already installed. Do you want to migrate from version {1} to {2}?</value>
   </data>
