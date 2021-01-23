@@ -27,7 +27,7 @@ namespace Akiba.Core
 
         public Configuration Save()
         {
-            var serializer = new SerializerBuilder().EmitDefaults().WithNamingConvention(new CamelCaseNamingConvention()).Build();
+            var serializer = new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
 
             using (var streamWriter = new StreamWriter(ConfigurationName))
             {
@@ -39,7 +39,7 @@ namespace Akiba.Core
 
         public static Configuration LoadFromFile()
         {
-            var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().WithNamingConvention(new CamelCaseNamingConvention()).Build();
+            var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
 
             using (var streamReader = new StreamReader(ConfigurationName))
             {
