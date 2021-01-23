@@ -18,7 +18,7 @@ namespace Akiba.Core
         public ushort FramesPerSecond { get; private set; } = 60;
         public ushort RenderingResolutionWidth { get; private set; } = 1920;
         public ushort RenderingResolutionHeight { get; private set; } = 1080;
-        public ScreenModes ScreenMode { get; private set; } = ScreenModes.Fullscreen;
+        public ScreenModes ScreenMode { get; private set; } = ScreenModes.Borderless;
         public bool VerticalSynchronization { get; private set; } = false;
         public bool AntiAliasing { get; private set; } = false;
         public bool HideCursor { get; private set; } = false;
