@@ -12,11 +12,12 @@ AkibaInterceptor is a small utility for adjusting the resolution and framerate i
 
 ## Requirements
 
-* Windows Vista or greater
+* AKIBA'S TRIP ([GOG](https://www.gog.com/game/akibas_trip_undead_undressed) and [Steam](https://store.steampowered.com/app/333980/) versions of the game are supported)
+    * :warning: Please use version [1.3.4](https://github.com/spideyfusion/akiba/releases/tag/v1.3.4) of AkibaInterceptor if you intend to run the [demo](https://store.steampowered.com/app/375980/) version of the game
 * [Microsoft .NET Framework 4.5.2](https://www.microsoft.com/en-us/download/details.aspx?id=42643)
-* [AKIBA'S TRIP](http://store.steampowered.com/app/333980/) (The [demo](http://store.steampowered.com/app/375980/) version is supported too!)
+* Windows Vista or greater
 
-> **NOTE:** Only the Steam version of the game is supported. If you obtained the game via some other distribution method, tough luck! :-)
+> **NOTE:** If you obtained the game via some other distribution method, tough luck! :-)
 
 ## Installation/Upgrading
 
@@ -29,10 +30,10 @@ Here's a list of settings you're able to override though the utility's `configur
 * **framesPerSecond** [int] - How many FPS you want to game to run at. Anything above 60 hasn't been tested, so keep that in mind.
 * **renderingResolutionWidth** [int] - The resolution width at which the game is going to be rendered.
 * **renderingResolutionHeight** [int] - The resolution height at which the game is going to be rendered.
-* **screenMode** [string] - In what kind of window the game should be ran. The following options are available: **Windowed, Fullscreen, Borderless**
+* **screenMode** [string] - In what kind of window the game should be ran. The following options are available: **Borderless, Fullscreen, Windowed**
 * **verticalSynchronization** [bool] - Should [VSync](https://en.wikipedia.org/wiki/Screen_tearing#V-sync) be enabled or not. It's recommended to turn it off if you run the game at anything other than 30 FPS.
 * **antiAliasing** [bool] - Should [anti-aliasing](https://en.wikipedia.org/wiki/Spatial_anti-aliasing) be applied or not. It's recommended to turn it off if you're going to take advantage of *downsampling*.
-* **hideCursor** [bool] - If enabled, the cursor will be positioned off the screen when the game starts. This is useful if you're running [Big Picture](http://store.steampowered.com/bigpicture).
+* **hideCursor** [bool] - If enabled, the cursor will be positioned off the screen when the game starts. This is useful if you're running [Big Picture](https://store.steampowered.com/bigpicture).
 * **preventSystemSleep** [bool] - This will prevent your system from falling asleep (monitor too). Super convenient if you're playing with a gamepad (which you should).
 * **disableMovies** [bool] - Enable this if you want to skip the opening cinematic and go directly to the start screen when you start the game.
 
@@ -55,11 +56,11 @@ Even though this utility will make the game launch immediately, you can still ac
 
 ## Reporting issues
 
-Use GitHub's [issue tracker](https://github.com/spideyfusion/akiba/issues) to report any issues you might have. You may also add me on [Steam](http://steamcommunity.com/id/kiririndesu), I don't bite.
+Use GitHub's [issue tracker](https://github.com/spideyfusion/akiba/issues) to report any issues you might have. You may also add me on [Steam](https://steamcommunity.com/profiles/76561197986958784/), I don't bite.
 
 ## Credits
 
-* The memory locations have been taken from [this](http://steamcommunity.com/sharedfiles/filedetails/?id=450891549) guide. Thanks to [X37](http://steamcommunity.com/id/X37), [You Schmuck!](http://steamcommunity.com/id/youschmuck), [Nyan~](http://steamcommunity.com/id/chaoskagami) and [Conker](http://steamcommunity.com/profiles/76561197992786462) for finding them.
+* Previous versions of AkibaInterceptor used memory patching in order to alter the framerate. The relevant memory locations have been taken from [this](https://steamcommunity.com/sharedfiles/filedetails/?id=450891549) guide. Thanks to [X37](https://steamcommunity.com/profiles/76561197980537906/), [You Schmuck!](https://steamcommunity.com/profiles/76561198001872439/), [Nyan~](https://steamcommunity.com/profiles/76561198020320520/) and [Conker](https://steamcommunity.com/profiles/76561197992786462/) for finding them.
 * The utility icon has been created by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/).
 
 ## License
