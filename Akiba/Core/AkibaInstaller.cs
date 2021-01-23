@@ -1,22 +1,13 @@
-﻿using Akiba.Core.Exceptions;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
-
 namespace Akiba.Core
 {
-    class AkibaInstaller
-    {
-        private string ProcessName;
-        private FileVersionInfo UtilityVersion;
+    using Akiba.Core.Exceptions;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Windows.Forms;
 
-        public FileVersionInfo OldUtility
-        {
-            get
-            {
-                return UtilityVersion;
-            }
-        }
+    internal class AkibaInstaller
+    {
+        public FileVersionInfo Utility { get; }
 
         public enum InstallStatus
         {
@@ -25,13 +16,15 @@ namespace Akiba.Core
             Launched,
         }
 
+        private readonly string processName;
+
         public AkibaInstaller()
         {
-            this.ProcessName = Process.GetCurrentProcess().MainModule.FileName;
+            this.processName = Process.GetCurrentProcess().MainModule.FileName;
 
             if (File.Exists(Utilities.ConfigExecutableName))
             {
-                this.UtilityVersion = FileVersionInfo.GetVersionInfo(Utilities.ConfigExecutableName);
+                this.Utility = FileVersionInfo.GetVersionInfo(Utilities.ConfigExecutableName);
             }
         }
 
@@ -42,7 +35,7 @@ namespace Akiba.Core
                 throw new BootstrapException(Properties.Resources.MessageGameLocation);
             }
 
-            if (Path.GetFileName(this.ProcessName).Equals(Utilities.ConfigExecutableName))
+            if (Path.GetFileName(this.processName).Equals(Utilities.ConfigExecutableName))
             {
                 if (!File.Exists(Utilities.BackupConfigExecutableName))
                 {
@@ -52,12 +45,12 @@ namespace Akiba.Core
                 return InstallStatus.Launched;
             }
 
-            if (this.UtilityVersion == null)
+            if (this.Utility == null)
             {
                 throw new BootstrapException(Properties.Resources.MessageConfigUtilityMissing);
             }
 
-            if (this.IsUtilityOurOwn())
+            if (this.Utility.ProductName.Equals(Application.ProductName))
             {
                 return InstallStatus.UpgradeRequested;
             }
@@ -72,14 +65,14 @@ namespace Akiba.Core
             File.Move(Utilities.ConfigExecutableName, Utilities.BackupConfigExecutableName);
 
             // We'll rename our utility to match the game's config executable name.
-            File.Move(this.ProcessName, Utilities.ConfigExecutableName);
+            File.Move(this.processName, Utilities.ConfigExecutableName);
 
             return InstallStatus.Installed;
         }
 
         public bool Upgrade()
         {
-            if (this.UtilityVersion == null)
+            if (this.Utility == null)
             {
                 return false;
             }
@@ -88,17 +81,7 @@ namespace Akiba.Core
             File.Delete(Utilities.ConfigExecutableName);
 
             // And let the new one take its place...
-            File.Move(this.ProcessName, Utilities.ConfigExecutableName);
-
-            return true;
-        }
-
-        private bool IsUtilityOurOwn()
-        {
-            if (!this.UtilityVersion.ProductName.Equals(Application.ProductName))
-            {
-                return false;
-            }
+            File.Move(this.processName, Utilities.ConfigExecutableName);
 
             return true;
         }

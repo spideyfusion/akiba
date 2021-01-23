@@ -1,23 +1,14 @@
-﻿using System;
-
 namespace Akiba.Core.Exceptions
 {
+    using System;
+
     [Serializable]
-    class BootstrapException : Exception
+    internal class BootstrapException : Exception
     {
-        private string BootstrapError;
+        public override string Message => this.bootstrapError;
 
-        public override string Message
-        {
-            get
-            {
-                return BootstrapError;
-            }
-        }
+        private readonly string bootstrapError;
 
-        public BootstrapException(string message)
-        {
-            this.BootstrapError = message;
-        }
+        public BootstrapException(string message) => this.bootstrapError = message;
     }
 }

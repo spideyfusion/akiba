@@ -1,10 +1,10 @@
-﻿using System.IO;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
-
 namespace Akiba.Core
 {
-    class Configuration
+    using System.IO;
+    using YamlDotNet.Serialization;
+    using YamlDotNet.Serialization.NamingConventions;
+
+    internal class Configuration
     {
         public const string ConfigurationName = "configuration.yaml";
 
@@ -46,5 +46,5 @@ namespace Akiba.Core
                 return deserializer.Deserialize<Configuration>(streamReader);
             }
         }
-    }   
+    }
 }

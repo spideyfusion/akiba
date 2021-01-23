@@ -1,13 +1,13 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 namespace Akiba.Core
 {
-    static class Utilities
+    using Microsoft.Win32;
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+
+    internal static class Utilities
     {
         private const uint SteamApplicationIdFull = 333980;
         private const uint SteamApplicationIdDemo = 375980;
@@ -20,14 +20,14 @@ namespace Akiba.Core
 
         public static bool AlterGameFramerate()
         {
-            Process gameProcess = GetGameProcess();
+            var gameProcess = GetGameProcess();
 
             if (gameProcess == null)
             {
                 return false;
             }
 
-            int memoryAddress = GetFramerateMemoryAddress();
+            var memoryAddress = GetFramerateMemoryAddress();
 
             if (memoryAddress == 0x00)
             {
@@ -39,17 +39,9 @@ namespace Akiba.Core
             return true;
         }
 
-        public static Process GetGameProcess()
-        {
-            return Process.GetProcessesByName(
-                Path.GetFileNameWithoutExtension(GameExecutableName)
-            ).FirstOrDefault();
-        }
+        public static Process GetGameProcess() => Process.GetProcessesByName(Path.GetFileNameWithoutExtension(GameExecutableName)).FirstOrDefault();
 
-        public static void LaunchSteamGame(uint applicationId)
-        {
-            Process.Start(string.Format("steam://run/{0}", applicationId));
-        }
+        public static void LaunchSteamGame(uint applicationId) => _ = Process.Start(string.Format("steam://run/{0}", applicationId));
 
         public static uint GetSteamApplicationId(Assembly assembly)
         {
@@ -63,7 +55,7 @@ namespace Akiba.Core
 
         private static int GetFramerateMemoryAddress()
         {
-            Version systemVersion = Environment.OSVersion.Version;
+            var systemVersion = Environment.OSVersion.Version;
 
             if (systemVersion.Major == 10)
             {
@@ -100,11 +92,8 @@ namespace Akiba.Core
             return 0x00;
         }
 
-        private static uint GetWindowsReleaseId()
-        {
-            return Convert.ToUInt32(
+        private static uint GetWindowsReleaseId() => Convert.ToUInt32(
                 (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "0")
-            );
-        }
+        );
     }
 }

@@ -1,28 +1,27 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
 namespace Akiba.Core
 {
-    static class ScreenManager
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    internal static class ScreenManager
     {
         public static Screen GetGameScreen(IntPtr handle)
         {
             // Let's see where the game window is currently located...
-            Rectangle windowLocation = GetWindowLocation(handle);
+            var windowLocation = GetWindowLocation(handle);
 
-            var screenIntersection = new Rectangle();
-            int bestCandidateArea = 0, candidateArea = 0;
+            var bestCandidateArea = 0;
 
             // User's primary screen is the best choice by default until we find something better.
-            Screen bestCandidateScreen = Screen.PrimaryScreen;
+            var bestCandidateScreen = Screen.PrimaryScreen;
 
-            foreach (Screen screen in Screen.AllScreens)
+            foreach (var screen in Screen.AllScreens)
             {
-                screenIntersection = Rectangle.Intersect(screen.Bounds, windowLocation);
+                var screenIntersection = Rectangle.Intersect(screen.Bounds, windowLocation);
 
                 // Calculate the surface of the intersection, the biggest one wins!
-                candidateArea = screenIntersection.Height * screenIntersection.Width;
+                var candidateArea = screenIntersection.Height * screenIntersection.Width;
 
                 if (candidateArea > bestCandidateArea)
                 {
@@ -36,9 +35,9 @@ namespace Akiba.Core
 
         public static void OccupyScreen(IntPtr handle, Screen screen)
         {
-            NativeMethods.SetWindowLong(handle, NativeMethods.GWL_STYLE, NativeMethods.WS_VISIBLE);
+            _ = NativeMethods.SetWindowLong(handle, NativeMethods.GWL_STYLE, NativeMethods.WS_VISIBLE);
 
-            NativeMethods.MoveWindow(
+            _ = NativeMethods.MoveWindow(
                 handle,
                 screen.Bounds.Left,
                 screen.Bounds.Top,
@@ -50,9 +49,7 @@ namespace Akiba.Core
 
         private static Rectangle GetWindowLocation(IntPtr handle)
         {
-            var rect = new NativeMethods.Rect();
-
-            NativeMethods.GetWindowRect(handle, out rect);
+            _ = NativeMethods.GetWindowRect(handle, out var rect);
 
             return new Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }

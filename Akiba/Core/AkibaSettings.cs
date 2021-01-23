@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-
 namespace Akiba.Core
 {
-    class AkibaSettings : IDisposable
+    using System;
+    using System.IO;
+
+    internal class AkibaSettings : IDisposable
     {
-        private FileStream ConfigurationStream;
+        private readonly FileStream configurationStream;
 
         private enum ConfigurationPositions : uint
         {
@@ -19,7 +19,7 @@ namespace Akiba.Core
 
         public AkibaSettings()
         {
-            string configurationPath = string.Format(
+            var configurationPath = string.Format(
                 @"{0}\AKIBA'S TRIP\config.dat",
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             );
@@ -29,21 +29,16 @@ namespace Akiba.Core
                 File.WriteAllBytes(configurationPath, Properties.Resources.DefaultGameConfig);
             }
 
-            this.ConfigurationStream = new FileStream(configurationPath, FileMode.Open, FileAccess.ReadWrite);
-        }
-
-        public void Dispose()
-        {
-            this.ConfigurationStream.Close();
+            this.configurationStream = new FileStream(configurationPath, FileMode.Open, FileAccess.ReadWrite);
         }
 
         public void ApplySettings()
         {
             this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionWidth, Program.Config.RenderingResolutionWidth);
-            this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionWidth + 1, (Program.Config.RenderingResolutionWidth >> 8));
+            this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionWidth + 1, Program.Config.RenderingResolutionWidth >> 8);
 
             this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionHeight, Program.Config.RenderingResolutionHeight);
-            this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionHeight + 1, (Program.Config.RenderingResolutionHeight >> 8));
+            this.SetConfigurationValue(ConfigurationPositions.RenderingResolutionHeight + 1, Program.Config.RenderingResolutionHeight >> 8);
 
             this.SetConfigurationValue(ConfigurationPositions.Fullscreen, Convert.ToInt16(Program.Config.ScreenMode == Configuration.ScreenModes.Fullscreen));
             this.SetConfigurationValue(ConfigurationPositions.VerticalSynchronization, Convert.ToInt16(Program.Config.VerticalSynchronization));
@@ -51,11 +46,13 @@ namespace Akiba.Core
             this.SetConfigurationValue(ConfigurationPositions.DisableMovies, Convert.ToInt16(Program.Config.DisableMovies));
         }
 
+        public void Dispose() => this.configurationStream.Close();
+
         private void SetConfigurationValue(ConfigurationPositions position, int value)
         {
-            this.ConfigurationStream.Position = (uint)position;
+            this.configurationStream.Position = (uint)position;
 
-            this.ConfigurationStream.WriteByte((byte)value);
+            this.configurationStream.WriteByte((byte)value);
         }
     }
 }

@@ -1,19 +1,19 @@
-﻿using Akiba.Core;
-using Akiba.Core.Exceptions;
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace Akiba
 {
-    class Program
+    using Akiba.Core;
+    using Akiba.Core.Exceptions;
+    using System;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+
+    internal class Program
     {
-        public static Configuration Config;
+        public static Configuration Config { get; private set; }
 
         private enum ExitCodes : int
         {
@@ -39,7 +39,7 @@ namespace Akiba
             }
             catch (BootstrapException e)
             {
-                MessageBox.Show(
+                _ = MessageBox.Show(
                     e.Message,
                     Application.ProductName,
                     MessageBoxButtons.OK,
@@ -53,7 +53,7 @@ namespace Akiba
 
             if (Config == null)
             {
-                MessageBox.Show(
+                _ = MessageBox.Show(
                     Properties.Resources.MessageConfigurationError,
                     Application.ProductName,
                     MessageBoxButtons.OK,
@@ -83,7 +83,7 @@ namespace Akiba
 
             if (!Utilities.AlterGameFramerate())
             {
-                MessageBox.Show(
+                _ = MessageBox.Show(
                     Properties.Resources.MessageFramerateError,
                     Application.ProductName,
                     MessageBoxButtons.OK,
@@ -94,7 +94,7 @@ namespace Akiba
             }
 
             // We're going to re-launch ourselves and monitor the game.
-            Process.Start(new ProcessStartInfo
+            _ = Process.Start(new ProcessStartInfo
             {
                 FileName = Utilities.ConfigExecutableName,
                 Arguments = Utilities.MonitorTriggerSwitch,
@@ -106,7 +106,7 @@ namespace Akiba
 
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(
+            _ = MessageBox.Show(
                 e.ExceptionObject.ToString(),
                 Application.ProductName,
                 MessageBoxButtons.OK,
@@ -120,12 +120,12 @@ namespace Akiba
         {
             var installer = new AkibaInstaller();
 
-            AkibaInstaller.InstallStatus installStatus = installer.Install();
+            var installStatus = installer.Install();
 
             if (installStatus == AkibaInstaller.InstallStatus.UpgradeRequested)
             {
-                DialogResult dialogResult = MessageBox.Show(
-                    string.Format(Properties.Resources.MessageUpgradeNotice, Application.ProductName, installer.OldUtility.ProductVersion, Application.ProductVersion),
+                var dialogResult = MessageBox.Show(
+                    string.Format(Properties.Resources.MessageUpgradeNotice, Application.ProductName, installer.Utility.ProductVersion, Application.ProductVersion),
                     Application.ProductName,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
@@ -133,7 +133,7 @@ namespace Akiba
 
                 if (dialogResult == DialogResult.Yes)
                 {
-                    installer.Upgrade();
+                    _ = installer.Upgrade();
                 }
                 else
                 {
@@ -142,7 +142,7 @@ namespace Akiba
             }
             else if (installStatus == AkibaInstaller.InstallStatus.Installed)
             {
-                MessageBox.Show(
+                _ = MessageBox.Show(
                     string.Format(Properties.Resources.MessageSuccess, Configuration.ConfigurationName),
                     Application.ProductName,
                     MessageBoxButtons.OK,
@@ -172,7 +172,7 @@ namespace Akiba
 
         private static void LaunchConfigurationUtility()
         {
-            Process gameUtility = Process.Start(new ProcessStartInfo
+            var gameUtility = Process.Start(new ProcessStartInfo
             {
                 FileName = Utilities.BackupConfigExecutableName,
                 Arguments = Utilities.ConfigTriggerSwitch,
@@ -190,7 +190,7 @@ namespace Akiba
 
         private static void StartGameMonitorLoop()
         {
-            Process gameProcess = Utilities.GetGameProcess();
+            var gameProcess = Utilities.GetGameProcess();
 
             do
             {
@@ -200,10 +200,10 @@ namespace Akiba
                 gameProcess.Refresh();
             } while (gameProcess.MainWindowHandle == IntPtr.Zero);
 
-            IntPtr gameWindow = gameProcess.MainWindowHandle;
+            var gameWindow = gameProcess.MainWindowHandle;
 
             // Make sure the game window is visible before we start manipulating it.
-            NativeMethods.SendMessage(gameWindow, NativeMethods.WM_SYSCOMMAND, (IntPtr)NativeMethods.SC_RESTORE, IntPtr.Zero);
+            _ = NativeMethods.SendMessage(gameWindow, NativeMethods.WM_SYSCOMMAND, (IntPtr)NativeMethods.SC_RESTORE, IntPtr.Zero);
 
             if (Config.ScreenMode == Configuration.ScreenModes.Borderless)
             {
@@ -219,7 +219,7 @@ namespace Akiba
             if (Config.PreventSystemSleep)
             {
                 // Prevent the system from going to sleep if the game is running.
-                NativeMethods.SetThreadExecutionState(NativeMethods.ExecutionStateFlags.Continuous | NativeMethods.ExecutionStateFlags.DisplayRequired);
+                _ = NativeMethods.SetThreadExecutionState(NativeMethods.ExecutionStateFlags.Continuous | NativeMethods.ExecutionStateFlags.DisplayRequired);
             }
 
             gameProcess.WaitForExit();

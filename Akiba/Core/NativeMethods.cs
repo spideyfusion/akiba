@@ -1,10 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
 namespace Akiba.Core
 {
-    static class NativeMethods
+    using System;
+    using System.Diagnostics;
+    using System.Runtime.InteropServices;
+
+    internal static class NativeMethods
     {
         [DllImport("kernel32.dll")]
         public static extern IntPtr OpenProcess(ProcessAccessFlags desiredAccess, [MarshalAs(UnmanagedType.Bool)] bool inheritHandle, int processId);
@@ -67,6 +67,7 @@ namespace Akiba.Core
             Synchronize = 0x00100000,
         }
 
+#pragma warning disable IDE1006
         [StructLayout(LayoutKind.Sequential)]
         public struct Rect
         {
@@ -75,15 +76,16 @@ namespace Akiba.Core
             public int Right;
             public int Bottom;
         }
+#pragma warning restore IDE1006
 
         public static void WriteToProcessMemory(Process process, int address, long v)
         {
-            var processHandle = OpenProcess(ProcessAccessFlags.All, false, (int)process.Id);
+            var processHandle = OpenProcess(ProcessAccessFlags.All, false, process.Id);
             var value = new byte[] { (byte)v };
 
-            WriteProcessMemory(processHandle, new IntPtr(address), value, (UIntPtr)value.LongLength, out int bytesWritten);
+            _ = WriteProcessMemory(processHandle, new IntPtr(address), value, (UIntPtr)value.LongLength, out _);
 
-            CloseHandle(processHandle);
+            _ = CloseHandle(processHandle);
         }
     }
 }
