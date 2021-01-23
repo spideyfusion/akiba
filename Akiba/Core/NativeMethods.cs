@@ -1,20 +1,10 @@
 namespace Akiba.Core
 {
     using System;
-    using System.Diagnostics;
     using System.Runtime.InteropServices;
 
     internal static class NativeMethods
     {
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr OpenProcess(ProcessAccessFlags desiredAccess, [MarshalAs(UnmanagedType.Bool)] bool inheritHandle, int processId);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool WriteProcessMemory(IntPtr process, IntPtr baseAddress, byte[] buffer, UIntPtr size, out int numberOfBytesWritten);
-
-        [DllImport("kernel32.dll")]
-        public static extern int CloseHandle(IntPtr process);
-
         [DllImport("kernel32.dll")]
         public static extern uint SetThreadExecutionState(ExecutionStateFlags flags);
 
@@ -77,15 +67,5 @@ namespace Akiba.Core
             public int Bottom;
         }
 #pragma warning restore IDE1006
-
-        public static void WriteToProcessMemory(Process process, int address, long v)
-        {
-            var processHandle = OpenProcess(ProcessAccessFlags.All, false, process.Id);
-            var value = new byte[] { (byte)v };
-
-            _ = WriteProcessMemory(processHandle, new IntPtr(address), value, (UIntPtr)value.LongLength, out _);
-
-            _ = CloseHandle(processHandle);
-        }
     }
 }

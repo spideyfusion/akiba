@@ -87,6 +87,7 @@
     <Compile Include="Core\AkibaSettings.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\Exceptions\BootstrapException.cs" />
+    <Compile Include="Core\IniManipulator.cs" />
     <Compile Include="Core\NativeMethods.cs" />
     <Compile Include="Core\ScreenManager.cs" />
     <Compile Include="Program.cs" />

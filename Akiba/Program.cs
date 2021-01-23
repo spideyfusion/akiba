@@ -20,7 +20,6 @@ namespace Akiba
             Success,
             BoostrapFail,
             ConfigurationError,
-            FramerateAlterFail,
             UnhandledException,
             UserCanceled,
         }
@@ -79,18 +78,6 @@ namespace Akiba
             using (var gameSettings = new AkibaSettings())
             {
                 gameSettings.ApplySettings();
-            }
-
-            if (!Utilities.AlterGameFramerate())
-            {
-                _ = MessageBox.Show(
-                    Properties.Resources.MessageFramerateError,
-                    Application.ProductName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-
-                return (int)ExitCodes.FramerateAlterFail;
             }
 
             // We're going to re-launch ourselves and monitor the game.

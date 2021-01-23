@@ -6,6 +6,7 @@ namespace Akiba.Core
     internal class AkibaSettings : IDisposable
     {
         private readonly FileStream configurationStream;
+        private readonly IniManipulator iniManipulator;
 
         private enum ConfigurationPositions : uint
         {
@@ -30,6 +31,7 @@ namespace Akiba.Core
             }
 
             this.configurationStream = new FileStream(configurationPath, FileMode.Open, FileAccess.ReadWrite);
+            this.iniManipulator = new IniManipulator(Utilities.GameIniName);
         }
 
         public void ApplySettings()
@@ -44,6 +46,8 @@ namespace Akiba.Core
             this.SetConfigurationValue(ConfigurationPositions.VerticalSynchronization, Convert.ToInt16(Program.Config.VerticalSynchronization));
             this.SetConfigurationValue(ConfigurationPositions.AntiAliasing, Convert.ToInt16(Program.Config.AntiAliasing));
             this.SetConfigurationValue(ConfigurationPositions.DisableMovies, Convert.ToInt16(Program.Config.DisableMovies));
+
+            this.iniManipulator.Write("GameFPS", Program.Config.FramesPerSecond.ToString(), "Display");
         }
 
         public void Dispose() => this.configurationStream.Close();

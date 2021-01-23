@@ -130,9 +130,6 @@
   <data name="MessageConfigUtilityMissing" xml:space="preserve">
     <value>The game configuration executable is missing. What did you do with it?</value>
   </data>
-  <data name="MessageFramerateError" xml:space="preserve">
-    <value>The desired framerate couldn't be set because the game process is not running or you're using an unsupported OS.</value>
-  </data>
   <data name="MessageGameLocation" xml:space="preserve">
     <value>The main game executable couldn't be located. Did you put the utility inside the game directory?</value>
   </data>
