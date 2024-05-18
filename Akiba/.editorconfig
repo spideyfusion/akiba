@@ -78,7 +78,7 @@ dotnet_analyzer_diagnostic.severity = warning
 ##########################################
 
 # [*.{cs,csx,cake,vb,vbx}]
-# file_header_template = <copyright file="{fileName}" company="PROJECT-AUTHOR">\n� PROJECT-AUTHOR\n</copyright>
+# file_header_template = <copyright file="{fileName}" company="PROJECT-AUTHOR">\n© PROJECT-AUTHOR\n</copyright>
 
 # SA1636: File header copyright text should match
 # Justification: .editorconfig supports file headers. If this is changed to a value other than "none", a stylecop.json file will need to added to the project.
