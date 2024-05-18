@@ -1,6 +1,7 @@
 namespace Akiba.Core
 {
     using System.IO;
+    using System.Windows.Forms;
     using YamlDotNet.Serialization;
     using YamlDotNet.Serialization.NamingConventions;
 
@@ -24,6 +25,12 @@ namespace Akiba.Core
         public bool HideCursor { get; private set; } = false;
         public bool PreventSystemSleep { get; private set; } = true;
         public bool DisableMovies { get; private set; } = false;
+
+        public Configuration()
+        {
+            this.RenderingResolutionWidth = (ushort)SystemInformation.VirtualScreen.Width;
+            this.RenderingResolutionHeight = (ushort)SystemInformation.VirtualScreen.Height;
+        }
 
         public Configuration Save()
         {
