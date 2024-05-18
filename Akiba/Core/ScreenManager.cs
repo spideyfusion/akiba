@@ -2,6 +2,7 @@ namespace Akiba.Core
 {
     using System;
     using System.Drawing;
+    using System.IO;
     using System.Windows.Forms;
 
     internal static class ScreenManager
@@ -35,6 +36,9 @@ namespace Akiba.Core
 
         public static void OccupyScreen(IntPtr handle, Screen screen)
         {
+            // Make sure the game window is visible before we start manipulating it.
+            _ = NativeMethods.SendMessage(handle, NativeMethods.WM_SYSCOMMAND, (IntPtr)NativeMethods.SC_RESTORE, IntPtr.Zero);
+
             _ = NativeMethods.SetWindowLong(handle, NativeMethods.GWL_STYLE, NativeMethods.WS_VISIBLE);
 
             _ = NativeMethods.MoveWindow(
@@ -52,6 +56,21 @@ namespace Akiba.Core
             _ = NativeMethods.GetWindowRect(handle, out var rect);
 
             return new Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
+        }
+
+        public static void HideCuror()
+        {
+            string cursorPath;
+
+            using (var cursor = new MemoryStream(Properties.Resources.BlankCursor))
+            {
+                cursorPath = Path.GetTempFileName();
+                File.WriteAllBytes(cursorPath, cursor.ToArray());
+            }
+
+            _ = NativeMethods.SetSystemCursor(NativeMethods.LoadCursorFromFile(cursorPath), NativeMethods.OCR_NORMAL);
+
+            File.Delete(cursorPath);
         }
     }
 }

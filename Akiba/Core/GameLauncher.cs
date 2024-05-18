@@ -1,9 +1,9 @@
 namespace Akiba.Core
 {
-    using Akiba.Core.Exceptions;
     using System;
     using System.Diagnostics;
     using System.IO;
+    using Akiba.Core.Exceptions;
 
     internal class GameLauncher
     {

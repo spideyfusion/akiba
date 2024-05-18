@@ -20,6 +20,15 @@ namespace Akiba.Core
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr handle, uint message, IntPtr wParam, IntPtr lParam);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SystemParametersInfo(int uiAction, int uiParam, IntPtr pvParam, int fWinIni);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr LoadCursorFromFile(string path);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetSystemCursor(IntPtr handle, uint id);
+
         // GetWindowLong API styles
         public const int GWL_STYLE = -16;
 
@@ -31,6 +40,12 @@ namespace Akiba.Core
 
         // System commands
         public const int SC_RESTORE = 0xF120;
+
+        // System parameters
+        public const int SPI_SETCURSORS = 0x0057;
+
+        // Cursors
+        public const int OCR_NORMAL = 32512;
 
         [Flags]
         public enum ExecutionStateFlags : uint

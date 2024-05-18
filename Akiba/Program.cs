@@ -1,14 +1,13 @@
 namespace Akiba
 {
-    using Akiba.Core;
-    using Akiba.Core.Exceptions;
     using System;
     using System.Diagnostics;
-    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+    using Akiba.Core;
+    using Akiba.Core.Exceptions;
 
     internal class Program
     {
@@ -198,9 +197,6 @@ namespace Akiba
 
             var gameWindow = gameProcess.MainWindowHandle;
 
-            // Make sure the game window is visible before we start manipulating it.
-            _ = NativeMethods.SendMessage(gameWindow, NativeMethods.WM_SYSCOMMAND, (IntPtr)NativeMethods.SC_RESTORE, IntPtr.Zero);
-
             if (Config.ScreenMode == Configuration.ScreenModes.Borderless)
             {
                 ScreenManager.OccupyScreen(gameWindow, ScreenManager.GetGameScreen(gameWindow));
@@ -208,8 +204,7 @@ namespace Akiba
 
             if (Config.HideCursor)
             {
-                // Move the cursor off the screen in case people are launching the game from Big Picture.
-                Cursor.Position = new Point(SystemInformation.VirtualScreen.Right, SystemInformation.VirtualScreen.Bottom);
+                ScreenManager.HideCuror();
             }
 
             if (Config.PreventSystemSleep)
@@ -219,6 +214,9 @@ namespace Akiba
             }
 
             gameProcess.WaitForExit();
+
+            // Restore the original cursor after the game exits.
+            NativeMethods.SystemParametersInfo(NativeMethods.SPI_SETCURSORS, 0, IntPtr.Zero, 0);
         }
     }
 }

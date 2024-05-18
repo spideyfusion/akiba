@@ -1,9 +1,9 @@
 namespace Akiba.Core
 {
-    using Akiba.Core.Exceptions;
     using System.Diagnostics;
     using System.IO;
     using System.Windows.Forms;
+    using Akiba.Core.Exceptions;
 
     internal class AkibaInstaller
     {
