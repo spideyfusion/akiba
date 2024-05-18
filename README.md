@@ -14,7 +14,7 @@ AkibaInterceptor is a small utility for adjusting the resolution and framerate i
 
 * AKIBA'S TRIP ([GOG](https://www.gog.com/game/akibas_trip_undead_undressed) and [Steam](https://store.steampowered.com/app/333980/) versions of the game are supported)
     * :warning: Please use version [1.3.4](https://github.com/spideyfusion/akiba/releases/tag/v1.3.4) of AkibaInterceptor if you intend to run the [demo](https://store.steampowered.com/app/375980/) version of the game
-* [Microsoft .NET Framework 4.5.2](https://www.microsoft.com/en-us/download/details.aspx?id=42643)
+* [Microsoft .NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 * Windows Vista or greater
 
 > **NOTE:** If you obtained the game via some other distribution method, tough luck! :-)
