@@ -28,8 +28,8 @@ namespace Akiba.Core
 
         public Configuration()
         {
-            this.RenderingResolutionWidth = (ushort)SystemInformation.VirtualScreen.Width;
-            this.RenderingResolutionHeight = (ushort)SystemInformation.VirtualScreen.Height;
+            this.RenderingResolutionWidth = (ushort)Screen.PrimaryScreen.Bounds.Width;
+            this.RenderingResolutionHeight = (ushort)Screen.PrimaryScreen.Bounds.Height;
         }
 
         public Configuration Save()

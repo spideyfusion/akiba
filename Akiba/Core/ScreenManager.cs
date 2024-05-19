@@ -34,6 +34,21 @@ namespace Akiba.Core
             return bestCandidateScreen;
         }
 
+        public static void HideCuror()
+        {
+            string cursorPath;
+
+            using (var cursor = new MemoryStream(Properties.Resources.BlankCursor))
+            {
+                cursorPath = Path.GetTempFileName();
+                File.WriteAllBytes(cursorPath, cursor.ToArray());
+            }
+
+            _ = NativeMethods.SetSystemCursor(NativeMethods.LoadCursorFromFile(cursorPath), NativeMethods.OCR_NORMAL);
+
+            File.Delete(cursorPath);
+        }
+
         public static void OccupyScreen(IntPtr handle, Screen screen)
         {
             // Make sure the game window is visible before we start manipulating it.
@@ -56,21 +71,6 @@ namespace Akiba.Core
             _ = NativeMethods.GetWindowRect(handle, out var rect);
 
             return new Rectangle(rect.Left, rect.Top, rect.Right, rect.Bottom);
-        }
-
-        public static void HideCuror()
-        {
-            string cursorPath;
-
-            using (var cursor = new MemoryStream(Properties.Resources.BlankCursor))
-            {
-                cursorPath = Path.GetTempFileName();
-                File.WriteAllBytes(cursorPath, cursor.ToArray());
-            }
-
-            _ = NativeMethods.SetSystemCursor(NativeMethods.LoadCursorFromFile(cursorPath), NativeMethods.OCR_NORMAL);
-
-            File.Delete(cursorPath);
         }
     }
 }
